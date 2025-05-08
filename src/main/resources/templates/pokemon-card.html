@@ -1,21 +1,232 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Pokemon</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+    <title>Pokémon Card</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            text-align: center;
+        }
+        
+        .pokemon-card {
+            background: linear-gradient(135deg, #f8f8f8 0%, #e0e0e0 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 300px;
+            padding: 20px;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        .pokemon-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .pokemon-id {
+            font-size: 14px;
+            color: #666;
+            font-weight: bold;
+        }
+        
+        .pokemon-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            text-transform: capitalize;
+        }
+        
+        .pokemon-image-container {
+            background: radial-gradient(circle, #ffffff 0%, #f0f0f0 100%);
+            border-radius: 10px;
+            padding: 10px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .pokemon-image {
+            max-width: 100%;
+            max-height: 180px;
+        }
+        
+        .pokemon-types {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .type-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: white;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+        
+        .normal { background-color: #A8A878; }
+        .fire { background-color: #F08030; }
+        .water { background-color: #6890F0; }
+        .electric { background-color: #F8D030; }
+        .grass { background-color: #78C850; }
+        .ice { background-color: #98D8D8; }
+        .fighting { background-color: #C03028; }
+        .poison { background-color: #A040A0; }
+        .ground { background-color: #E0C068; }
+        .flying { background-color: #A890F0; }
+        .psychic { background-color: #F85888; }
+        .bug { background-color: #A8B820; }
+        .rock { background-color: #B8A038; }
+        .ghost { background-color: #705898; }
+        .dragon { background-color: #7038F8; }
+        .dark { background-color: #705848; }
+        .steel { background-color: #B8B8D0; }
+        .fairy { background-color: #EE99AC; }
+        
+        .pokemon-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+        }
+        
+        .info-group {
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .pokemon-stats {
+            text-align: left;
+        }
+        
+        .stat-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .stat-name {
+            width: 100px;
+            font-size: 14px;
+            color: #666;
+            text-transform: capitalize;
+        }
+        
+        .stat-bar-container {
+            flex-grow: 1;
+            background-color: #e0e0e0;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .stat-bar {
+            height: 100%;
+            background-color: #4CAF50;
+        }
+        
+        .stat-value {
+            width: 40px;
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-left: 10px;
+        }
+        
+        .refresh-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .refresh-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
-
-<body class="bg-gray-100 flex justify-center items-center h-screen">
-
-    <div class="bg-white shadow-lg rounded-lg p-6">
-        <img src="{{pokemon.imageUrl}}" alt="{{pokemon.name}}" class="w-48 mx-auto mb-4">
-        <h1 class="text-2xl font-bold text-center">{{pokemon.name | capitalize}}</h1>
-        <p class="text-center text-gray-600">{{pokemon.description}}</p>
+<body>
+    <div class="container">
+        <div class="pokemon-card" th:if="${pokemon != null}">
+            <div class="pokemon-header">
+                <div class="pokemon-id" th:text="'#' + ${pokemon.id}"></div>
+                <div class="pokemon-name" th:text="${pokemon.name}"></div>
+            </div>
+            
+            <div class="pokemon-image-container">
+                <img class="pokemon-image" th:src="${pokemon.sprites.other.officialArtwork.frontDefault}" alt="Pokemon image">
+            </div>
+            
+            <div class="pokemon-types">
+                <div th:each="type : ${pokemon.types}" 
+                     th:class="'type-badge ' + ${type.type.name}" 
+                     th:text="${type.type.name}">
+                </div>
+            </div>
+            
+            <div class="pokemon-info">
+                <div class="info-group">
+                    <div class="info-label">Height</div>
+                    <div class="info-value" th:text="${pokemon.height / 10.0} + ' m'"></div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Weight</div>
+                    <div class="info-value" th:text="${pokemon.weight / 10.0} + ' kg'"></div>
+                </div>
+            </div>
+            
+            <div class="pokemon-stats">
+                <div class="stat-row" th:each="stat : ${pokemon.stats}">
+                    <div class="stat-name" th:text="${#strings.replace(stat.stat.name, '-', ' ')}"></div>
+                    <div class="stat-bar-container">
+                        <div class="stat-bar" th:style="'width: ' + ${stat.baseStat / 2.55} + '%'"></div>
+                    </div>
+                    <div class="stat-value" th:text="${stat.baseStat}"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div th:if="${pokemon == null}">
+            <h2>No se pudo cargar la información del Pokémon</h2>
+            <p>Por favor, inténtalo de nuevo.</p>
+        </div>
+        
+        <a href="/refresh">
+            <button class="refresh-button">Obtener otro Pokémon</button>
+        </a>
     </div>
-
 </body>
-
 </html>
