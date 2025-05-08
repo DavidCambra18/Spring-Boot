@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Pokemon</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+
+    <div class="bg-white shadow-lg rounded-lg p-6">
+        <img src="{{pokemon.imageUrl}}" alt="{{pokemon.name}}" class="w-48 mx-auto mb-4">
+        <h1 class="text-2xl font-bold text-center">{{pokemon.name | capitalize}}</h1>
+        <p class="text-center text-gray-600">{{pokemon.description}}</p>
+    </div>
+
+</body>
+
+</html>
