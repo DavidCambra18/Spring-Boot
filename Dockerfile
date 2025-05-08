@@ -17,10 +17,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copiar el archivo JAR desde la etapa de construcción
-COPY --from=build /app/target/tu-aplicacion.jar /app/tu-aplicacion.jar
+COPY --from=build /app/target/medidor.jar /app/medidor.jar
 
 # Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "/app/tu-aplicacion.jar"]
+ENTRYPOINT ["java", "-jar", "/app/medidor.jar"]
 
 # Exponer el puerto en el que Spring Boot estará escuchando
 EXPOSE 8080
