@@ -1,26 +1,26 @@
-# Usamos una imagen base con Maven y OpenJDK
-FROM maven:3.8.4-openjdk-17-slim AS build
+# Etapa de construcción
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 
-# Directorio de trabajo en el contenedor
+# Establece directorio de trabajo
 WORKDIR /app
 
-# Copiar el código fuente al contenedor
+# Copia el contenido del proyecto
 COPY . .
 
-# Ejecutar Maven para compilar y empaquetar el proyecto
+# Empaqueta el proyecto sin ejecutar tests
 RUN mvn clean package -DskipTests
 
-# Usamos una imagen más liviana para el runtime
-FROM openjdk:17-jdk-slim
+# Etapa de ejecución
+FROM eclipse-temurin:21-jdk
 
-# Directorio donde se copiará el JAR empaquetado
+# Establece directorio de trabajo
 WORKDIR /app
 
-# Copiar el archivo JAR desde la etapa de construcción
-COPY --from=build /app/target/medidor.jar /app/medidor.jar
-
-# Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "/app/medidor.jar"]
-
-# Exponer el puerto en el que Spring Boot estará escuchando
+# Expone el puerto 8080
 EXPOSE 8080
+
+# Copia el JAR generado
+COPY --from=build /app/target/*.jar app.jar
+
+# Establece el comando para ejecutar el JAR
+ENTRYPOINT ["java", "-jar", "app.jar"]
