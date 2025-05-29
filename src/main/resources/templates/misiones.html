@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Misiones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
+</head>
+
+<body class="bg-gray-100 p-4">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-4">Lista de Misiones</h1>
+
+        <!-- Formulario de filtrado -->
+        <form method="get" action="#" class="mb-4 flex gap-2">
+            <select name="dificultad" class="p-1 rounded border">
+                <option value="">Todas las dificultades</option>
+                <option value="baja" th:selected="${param.dificultad == 'baja'}">Baja</option>
+                <option value="media" th:selected="${param.dificultad == 'media'}">Media</option>
+                <option value="alta" th:selected="${param.dificultad == 'alta'}">Alta</option>
+            </select>
+            <select name="estado" class="p-1 rounded border">
+                <option value="">Todos los estados</option>
+                <option value="pendiente" th:selected="${param.estado == 'pendiente'}">Pendiente</option>
+                <option value="éxito" th:selected="${param.estado == 'éxito'}">Éxito</option>
+                <option value="fracaso" th:selected="${param.estado == 'fracaso'}">Fracaso</option>
+            </select>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-1 rounded">Filtrar</button>
+        </form>
+
+        <div th:if="${misiones.empty}">
+            <p>No hay misiones registradas.</p>
+        </div>
+        <div th:each="mision : ${misiones}" class="mb-4">
+            <div class="bg-white shadow rounded-lg p-4 mb-2">
+                <h2 class="text-xl font-semibold" th:text="${mision.nombre}"></h2>
+                <p>Descripción: <span th:text="${mision.descripcion}"></span></p>
+                <p>Dificultad: <span th:text="${mision.dificultad}"></span></p>
+                <p>Recompensa: <span th:text="${mision.recompensa}"></span></p>
+                <p>Estado: <span th:text="${mision.resultado}"></span></p>
+                <p>Fecha inicio: <span th:text="${mision.fechaInicio}"></span></p>
+                <p>Fecha fin: <span th:text="${mision.fechaFin}"></span></p>
+                <p>Robots participantes:
+                    <span th:if="${mision.robotsParticipantes.empty}">Ninguno</span>
+                    <span th:each="r : ${mision.robotsParticipantes}" th:text="${r} + ' '"></span>
+                </p>
+            </div>
+        </div>
+        <a href="/robots/lista" class="text-blue-600 underline">Ver robots</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Robots</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
+</head>
+
+<body class="bg-gray-100 p-4">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-4">Lista de Robots</h1>
+        <div th:if="${robots.empty}">
+            <p>No hay robots registrados.</p>
+        </div>
+        <div th:each="robot : ${robots}" class="mb-4">
+            <div class="bg-white shadow rounded-lg p-4 mb-2">
+                <h2 class="text-xl font-semibold flex items-center">
+                    <span th:text="${robot.nombre} + ' (' + ${robot.modelo} + ')'"></span>
+                    <a th:href="@{'/robots/' + ${robot.id} + '/historial'}" class="text-blue-500 underline ml-2">Ver
+                        historial</a>
+                </h2>
+                <p>Tipo: <span th:text="${robot.tipo}"></span></p>
+                <p>Energía: <span th:text="${robot.energiaActual}"></span> / <span
+                        th:text="${robot.energiaMaxima}"></span></p>
+                <p>Nivel: <span th:text="${robot.nivel}"></span></p>
+                <p>Estado: <span th:text="${robot.estado}"></span></p>
+                <p>Habilidades:
+                    <span th:each="hab : ${robot.habilidades}" th:text="${hab} + ' '"></span>
+                </p>
+                <p>Misiones realizadas:
+                    <span th:if="${robot.misionesRealizadas.empty}">Ninguna</span>
+                    <span th:each="m : ${robot.misionesRealizadas}" th:text="${m} + ' '"></span>
+                </p>
+            </div>
+        </div>
+        <a href="/misiones/lista" class="text-blue-600 underline">Ver misiones</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Historial de Misiones de Robot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
+</head>
+
+<body class="bg-gray-100 p-4">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold mb-4" th:text="'Historial de misiones: ' + ${robot.nombre}"></h1>
+        <div th:if="${misiones.empty}">
+            <p>Este robot aún no ha realizado ninguna misión.</p>
+        </div>
+        <div th:each="m : ${misiones}">
+            <div class="bg-white shadow rounded-lg p-4 mb-2">
+                <h2 class="text-xl font-semibold" th:text="${m.nombre}"></h2>
+                <p th:text="${m.descripcion}"></p>
+                <p>Dificultad: <span th:text="${m.dificultad}"></span></p>
+                <p>Estado: <span th:text="${m.resultado}"></span></p>
+                <p>Fechas: <span th:text="${m.fechaInicio}"></span> — <span th:text="${m.fechaFin}"></span></p>
+            </div>
+        </div>
+        <a href="/robots/lista" class="text-blue-600 underline">Volver a robots</a>
+    </div>
+</body>
+
+</html>
