@@ -1,22 +1,25 @@
 package com.cebem.medidor.services;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.cebem.medidor.models.SuperHero;
 
 @Service
 public class SuperHeroService {
 
-    @Value("${superheroapi.url}")
-    private String superheroApiUrl;
+    // Cambia este token por el tuyo real de la SuperHero API
+    private static final String TOKEN = "2632b22186b9e8357db76c1239bf1350";
+    private static final String API_URL = "https://superheroapi.com/api/" + TOKEN + "/";
 
-    @Value("${superheroapi.token}")
-    private String superheroApiToken;
+    public SuperHero getSuperHeroObject() {
+        // Por defecto buscamos el superhéroe con ID 1 (puedes parametrizarlo)
+        int heroId = 1;
+        String url = API_URL + heroId;
 
-    public String getSuperHeroInfo() {
         RestTemplate restTemplate = new RestTemplate();
-        String url = superheroApiUrl + "/" + superheroApiToken + "/1";
-        String response = restTemplate.getForObject(url, String.class);
-        return response;
+        SuperHero hero = restTemplate.getForObject(url, SuperHero.class);
+
+        return hero;
     }
 }

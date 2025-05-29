@@ -1,12 +1,9 @@
 package com.cebem.medidor.models;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class SuperHero {
     private String id;
     private String name;
@@ -16,8 +13,6 @@ public class SuperHero {
     private Image image;
 
     @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     public static class Powerstats {
         private String intelligence;
         private String strength;
@@ -28,49 +23,19 @@ public class SuperHero {
     }
 
     @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     public static class Biography {
+        @JsonProperty("full-name")
         private String fullName;
-        private String alterEgos;
-        private String aliases;
-        private String placeOfBirth;
-        private String firstAppearance;
         private String publisher;
-        private String alignment;
     }
 
     @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     public static class Appearance {
         private String gender;
         private String race;
-        private String height;
-        private String weight;
-        private String eyeColor;
-        private String hairColor;
     }
 
     @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class work {
-        private String occupation;
-        private String base;
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Connections {
-        private String groupAffiliation;
-        private String relatives;
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     public static class Image {
         private String url;
     }

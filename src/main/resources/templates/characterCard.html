@@ -2,18 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Personaje de Rick and Morty</title>
+    <meta charset="UTF-8">
+    <title>SuperHero Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
 </head>
 
 <body class="bg-gray-100">
     <div class="max-w-sm mx-auto mt-10">
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img th:src="@{${character.image}}" alt="Imagen del personaje" class="w-full h-64 object-cover">
+            <img th:src="${hero.image.url}" alt="Imagen del héroe" class="w-full h-64 object-cover">
             <div class="p-4">
-                <h2 th:text="${character.name}" class="text-2xl font-bold mb-2"></h2>
-                <p class="text-gray-700">Especie: <span th:text="${character.species}"></span></p>
-                <p class="text-gray-700">Género: <span th:text="${character.gender}"></span></p>
+                <h2 th:text="${hero.name}" class="text-2xl font-bold mb-2"></h2>
+                <p class="text-gray-700">Nombre real: <span th:text="${hero.biography.fullName}"></span></p>
+                <p class="text-gray-700">Publicación: <span th:text="${hero.biography.publisher}"></span></p>
+                <p class="text-gray-700">Género: <span th:text="${hero.appearance.gender}"></span></p>
+                <p class="text-gray-700">Raza: <span th:text="${hero.appearance.race}"></span></p>
+                <p class="text-gray-700">Inteligencia: <span th:text="${hero.powerstats.intelligence}"></span></p>
+                <p class="text-gray-700">Fuerza: <span th:text="${hero.powerstats.strength}"></span></p>
+                <p class="text-gray-700">Velocidad: <span th:text="${hero.powerstats.speed}"></span></p>
+                <p class="text-gray-700">Durabilidad: <span th:text="${hero.powerstats.durability}"></span></p>
+                <p class="text-gray-700">Poder: <span th:text="${hero.powerstats.power}"></span></p>
+                <p class="text-gray-700">Combate: <span th:text="${hero.powerstats.combat}"></span></p>
             </div>
         </div>
     </div>
